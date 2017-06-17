@@ -1,0 +1,49 @@
+spring:
+    jpa.hibernate.naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+    datasource.initialize: false
+    profiles.active: in-memory-db,dev
+    data.rest.base-path: /api
+logging:
+    config: classpath:logback-console.xml
+
+---
+spring:
+    profiles: prod
+logging:
+    config: classpath:logback-file.xml
+
+---
+spring:
+    profiles: dev
+    datasource:
+        initialize: true
+
+---
+spring:
+    profiles: real-db
+    jpa:
+        hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            ddl-auto: validate
+    datasource:
+        driverClassName: org.postgresql.Driver
+        jdbcUrl: jdbc:postgresql://127.0.0.1:5432/auginc
+        username: postgres
+        password: postgres
+flyway:
+    schemas: public
+
+---
+spring:
+    profiles: in-memory-db
+    datasource:
+        driverClassName: org.h2.Driver
+        jdbcUrl: jdbc:h2:mem:auginc;DB_CLOSE_DELAY\=-1
+        username: sa
+        password:
+    jpa:
+        hibernate:
+            dialect: org.hibernate.dialect.H2Dialect
+            ddl-auto: create
+flyway:
+    enabled: false

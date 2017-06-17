@@ -1,0 +1,2 @@
+INSERT INTO users (id, version, created_at, updated_at, email, first_name, last_name, password, deleted) VALUES (1, 0, '2017-06-01 00:00:00', '2017-06-01 00:00:00', 'paulochavesbr@gmail.com', 'Paulo', 'Chaves', '123456', false);
+INSERT INTO users (id, version, created_at, updated_at, email, first_name, last_name, password, deleted) VALUES (2, 0, '2017-06-01 00:00:00', '2017-06-01 00:00:00', 'john@test.com', 'John', 'Peace', '123456', false);
