@@ -1,19 +1,14 @@
 <configuration>
 
-    <property name="charset" value="UTF-8" />
-    <property name="pattern"
-        value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="logDir" value="${java.io.tmpdir}"/>
+    <property name="charset" value="UTF-8"/>
+    <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
-    <appender name="FILE"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${java.io.tmpdir}/auginc/logs/auginc.log
-        </file>
-        <rollingPolicy
-            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${java.io.tmpdir}/auginc/logs/auginc_%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/auginc/logs/auginc.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/auginc/logs/auginc_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
             <maxHistory>30</maxHistory>
@@ -25,18 +20,20 @@
     </appender>
 
     <!-- show hibernate sql with debug -->
-    <logger name="org.hibernate.SQL" level="info" />
+    <logger name="org.hibernate.SQL" level="info"/>
     <!-- show bound hibernate parameters with trace -->
-    <logger name="org.hibernate.type" level="info" />
+    <logger name="org.hibernate.type" level="info"/>
 
-    <logger name="org.springframework.web" level="info" />
+    <logger name="org.springframework.web" level="info"/>
 
-    <logger name="org.springframework.data" level="info" />
+    <logger name="org.springframework.data.rest" level="info"/>
 
-    <logger name="com.opaulochaves.auginc" level="debug" />
+    <logger name="org.springframework.security" level="info"/>
+
+    <logger name="com.opaulochaves.auginc" level="debug"/>
 
     <root level="warn">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>

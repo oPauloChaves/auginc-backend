@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Primary;
 @SpringBootApplication
 public class AugincApplication {
 
-	@Bean
-	@Primary
-	@ConfigurationProperties( "spring.datasource" )
-	public DataSource primaryDataSource() {
-		return DataSourceBuilder.create().build();
-	}
+    @Bean
+    @Primary
+    @ConfigurationProperties("spring.datasource")
+    public DataSource primaryDataSource() {
+        return DataSourceBuilder.create().build();
+    }
 
-	public static void main( String[] args ) {
-		SpringApplication.run( AugincApplication.class, args );
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AugincApplication.class, args);
+    }
 }
