@@ -1,7 +1,6 @@
-create sequence hibernate_sequence start with 100 increment by 1;
-
+create sequence users_sequence start with 100 increment by 1;
 create table users (
-    id int8 not null default nextval('hibernate_sequence'),
+    id int8 not null default nextval('users_sequence'),
     version int4,
     email varchar(255) not null unique,
     password varchar(255) not null,
@@ -13,8 +12,9 @@ create table users (
     primary key (id)
 );
 
+create sequence companies_sequence start with 100 increment by 1;
 create table companies (
-    id int8 not null default nextval('hibernate_sequence'),
+    id int8 not null default nextval('companies_sequence'),
     version int4,
     name varchar(255) not null,
     commission float4,

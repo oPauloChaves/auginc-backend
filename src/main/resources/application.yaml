@@ -6,7 +6,7 @@ spring:
     datasource:
         initialize: false
     profiles:
-        active: in-memory-db,development
+        active: real-db,development
     data:
         rest:
             base-path: /api
