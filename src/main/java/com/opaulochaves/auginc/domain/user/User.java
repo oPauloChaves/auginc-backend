@@ -1,23 +1,19 @@
 package com.opaulochaves.auginc.domain.user;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.opaulochaves.auginc.core.AbstractEntity;
 import com.opaulochaves.auginc.domain.company.Company;
 
 import lombok.Getter;
@@ -27,24 +23,13 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table( name = "users" )
-public class User implements Serializable {
-
-	private static final long serialVersionUID = -7524551873023594098L;
-
-	@Id
-	@SequenceGenerator( name = "users_generator", sequenceName = "users_sequence", allocationSize = 1 )
-	@GeneratedValue( generator = "users_generator" )
-	private Long id;
-
-	@Version
-	@Column
-	private Integer version;
+public class User extends AbstractEntity {
 
 	@Column( name = "created_at" )
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@Column( name = "updated_at" )
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 
 	@NotEmpty
 	@Column( nullable = false, unique = true )
@@ -75,12 +60,12 @@ public class User implements Serializable {
 
 	@PrePersist
 	protected void defineCommonProps() {
-		this.createdAt = new Date();
+		this.createdAt = LocalDateTime.now();
 		this.updatedAt = this.createdAt;
 	}
 
 	@PreUpdate
 	protected void updateCommonProps() {
-		this.updatedAt = new Date();
+		this.updatedAt = LocalDateTime.now();
 	}
 }
