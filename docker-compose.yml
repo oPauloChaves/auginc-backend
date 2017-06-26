@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  postgres:
+    restart: on-failure:10
+    image: postgres:9.6
+    container_name: postgres
+    volumes:
+      - "data_postgres:/pgdata"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/pgdata
+
+volumes:
+  data_postgres:
