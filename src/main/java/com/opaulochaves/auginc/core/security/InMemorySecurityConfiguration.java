@@ -32,9 +32,6 @@ public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Autowired
     private EmployeeRepository employeeRepository;
     
-    @Autowired
-    private AppAuthenticationEntryPoint unauthorizedHandler;
-    
     private AugincProperties properties;
 
     public InMemorySecurityConfiguration(AugincProperties properties) {
@@ -57,7 +54,6 @@ public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
