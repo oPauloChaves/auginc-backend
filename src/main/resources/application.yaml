@@ -6,7 +6,7 @@ spring:
     datasource:
         initialize: false
     profiles:
-        active: in-memory-db,development
+        active: in-memory-db,development,granular-security,http-basic
     data:
         rest:
             base-path: /api
@@ -16,6 +16,27 @@ spring:
             infer-property-mutators: false
 logging:
     config: classpath:logback-console.xml
+auginc:
+    cors:
+        mapping: /**
+        allowedOrigins:
+            - http://localhost:3000
+        allowedMethods:
+            - OPTIONS
+            - GET
+            - POST
+            - PUT
+            - DELETE
+        allowedHeaders:
+            - Access-Control-Request-Headers
+            - Access-Control-Request-Method
+            - Authorization
+        exposedHeaders:
+            - Access-Control-Allow-Origin
+            - Access-Control-Allow-Methods
+        allowCredentials: false
+        maxAge: 3600
+    roleHierarchy: ROLE_ADMIN > ROLE_MANAGER ROLE_MANAGER > ROLE_EMPLOYEE ROLE_EMPLOYEE > ROLE_ANONYMOUS
 
 ---
 spring:

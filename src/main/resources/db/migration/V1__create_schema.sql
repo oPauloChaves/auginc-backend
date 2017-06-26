@@ -1,31 +1,28 @@
-create sequence users_sequence start with 100 increment by 1;
-create table users (
-    id int8 not null default nextval('users_sequence'),
-    version int4,
-    email varchar(255) not null unique,
-    password varchar(255) not null,
+create sequence employees_sequence start with 100 increment by 1;
+create table employees (
+    id int8 not null default default nextval('employees_sequence'),
+    email varchar(255) not null unique
     first_name varchar(255) not null,
     last_name varchar(255) not null,
-    created_at timestamp not null,
-    updated_at timestamp not null,
+    phone_number varchar(255),
+    title varchar(255),
     deleted boolean default false,
+    version int4,
     primary key (id)
 );
 
-create sequence companies_sequence start with 100 increment by 1;
-create table companies (
-    id int8 not null default nextval('companies_sequence'),
+create sequence brands_sequence start with 100 increment by 1;
+create table brands (
+    id int8 not null default nextval('brands_sequence'),
     version int4,
     name varchar(255) not null,
     commission float4,
-    created_at timestamp not null,
-    updated_at timestamp not null,
     deleted boolean default false,
-    user_id int8 not null,
+    employees_id int8 not null,
     primary key (id)
 );
 
-alter table companies
-    add constraint fk_companies_users
-    foreign key (user_id)
-    references users;
+alter table brands
+    add constraint fk_brands_employees
+    foreign key (employees_id)
+    references employees;
