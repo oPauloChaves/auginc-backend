@@ -27,16 +27,10 @@ auginc:
             - POST
             - PUT
             - DELETE
-        allowedHeaders:
-            - Access-Control-Request-Headers
-            - Access-Control-Request-Method
-            - Authorization
-        exposedHeaders:
-            - Access-Control-Allow-Origin
-            - Access-Control-Allow-Methods
-        allowCredentials: false
+        allowCredentials: true
         maxAge: 3600
-    roleHierarchy: ROLE_ADMIN > ROLE_MANAGER ROLE_MANAGER > ROLE_EMPLOYEE ROLE_EMPLOYEE > ROLE_ANONYMOUS
+    roleHierarchy: "ROLE_ADMIN > ROLE_MANAGER ROLE_MANAGER > ROLE_EMPLOYEE ROLE_EMPLOYEE > ROLE_ANONYMOUS"
+    realmName: "trackr development realm"
 
 ---
 spring:

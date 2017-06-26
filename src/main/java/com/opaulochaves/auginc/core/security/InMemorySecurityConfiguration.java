@@ -1,11 +1,14 @@
 package com.opaulochaves.auginc.core.security;
 
+import com.opaulochaves.auginc.core.AugincProperties;
 import com.opaulochaves.auginc.domain.employee.Employee;
 import com.opaulochaves.auginc.domain.employee.EmployeeRepository;
 import static java.util.Arrays.asList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,10 +26,20 @@ import org.springframework.security.core.userdetails.User;
 @EnableWebSecurity
 @Configuration
 @Profile("http-basic")
+@EnableConfigurationProperties({AugincProperties.class})
 public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    
+    @Autowired
+    private AppAuthenticationEntryPoint unauthorizedHandler;
+    
+    private AugincProperties properties;
+
+    public InMemorySecurityConfiguration(AugincProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,13 +56,25 @@ public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
-                authorizeRequests().anyRequest().fullyAuthenticated()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .anyRequest().fullyAuthenticated()
             .and()
                 .httpBasic()
-                .realmName("trackr development realm")
+                .realmName(properties.getRealmName())
             .and()
                 .csrf().disable();
+        
+        http.headers().addHeaderWriter((request, response) -> {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+            response.setHeader("Access-Control-Max-Age", "3600");
+            if (request.getMethod().equals("OPTIONS")) {
+                response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+            }
+        });
     }
 }

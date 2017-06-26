@@ -12,6 +12,8 @@ public class AugincProperties {
     private Cors cors = new Cors();
     
     private String roleHierarchy;
+    
+    private String realmName;
 
     public Cors getCors() {
         return cors;
@@ -27,6 +29,14 @@ public class AugincProperties {
 
     public void setRoleHierarchy(String roleHierarchy) {
         this.roleHierarchy = roleHierarchy;
+    }
+
+    public String getRealmName() {
+        return realmName;
+    }
+
+    public void setRealmName(String realmName) {
+        this.realmName = realmName;
     }
     
     public static class Cors {
