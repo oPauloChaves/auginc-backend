@@ -66,7 +66,7 @@ public class InMemorySecurityConfiguration extends WebSecurityConfigurerAdapter 
         
         http.headers().addHeaderWriter((request, response) -> {
             response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
             response.setHeader("Access-Control-Max-Age", "3600");
             if (request.getMethod().equals("OPTIONS")) {
                 response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
