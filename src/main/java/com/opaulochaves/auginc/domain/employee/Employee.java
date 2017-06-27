@@ -1,6 +1,6 @@
 package com.opaulochaves.auginc.domain.employee;
 
-import com.opaulochaves.auginc.domain.brand.Brand;
+import com.opaulochaves.auginc.domain.employee.brands.Brand;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

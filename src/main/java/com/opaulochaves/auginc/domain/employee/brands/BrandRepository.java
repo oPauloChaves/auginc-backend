@@ -1,4 +1,4 @@
-package com.opaulochaves.auginc.domain.brand;
+package com.opaulochaves.auginc.domain.employee.brands;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

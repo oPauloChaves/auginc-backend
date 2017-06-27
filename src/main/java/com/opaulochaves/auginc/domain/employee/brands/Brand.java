@@ -1,4 +1,4 @@
-package com.opaulochaves.auginc.domain.brand;
+package com.opaulochaves.auginc.domain.employee.brands;
 
 import com.opaulochaves.auginc.domain.employee.Employee;
 import java.math.BigDecimal;
