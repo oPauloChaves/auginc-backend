@@ -1,15 +1,15 @@
-package com.opaulochaves.auginc.domain.employee;
+package com.opaulochaves.auginc.domain.employee.customers;
 
-import com.opaulochaves.auginc.domain.employee.brands.Brand;
-import com.opaulochaves.auginc.domain.employee.customers.Customer;
-import java.util.List;
-import javax.persistence.CascadeType;
+import com.opaulochaves.auginc.domain.common.Address;
+import com.opaulochaves.auginc.domain.employee.Employee;
+import java.math.BigDecimal;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import lombok.Getter;
@@ -17,11 +17,15 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ *
+ * @author paulo
+ */
 @Entity
 @Getter
 @Setter
-@Table(name = "employees")
-public class Employee {
+@Table(name = "customers")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,18 +50,19 @@ public class Employee {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    private String title;
-
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
-    private List<Brand> brands;
+    @Column(name = "cell_number")
+    private String cellNumber;
     
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
-    private List<Customer> customers;
-
-    private boolean deleted;
-
-    public String fullName() {
-        return getFirstName() + " " + getLastName();
-    }
+    private String note;
+    
+    private BigDecimal latitude;
+    
+    private BigDecimal longitude;
+    
+    @Embedded
+    private Address address;
+    
+    @ManyToOne
+    private Employee employee;
 
 }
