@@ -16,6 +16,9 @@ spring:
             infer-property-mutators: false
 logging:
     config: classpath:logback-console.xml
+security:
+    basic:
+        enabled: false
 auginc:
     cors:
         mapping: /**

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
@@ -59,6 +60,7 @@ public class Customer {
     
     private BigDecimal longitude;
     
+    @Valid
     @Embedded
     private Address address;
     
