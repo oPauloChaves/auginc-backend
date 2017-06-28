@@ -7,10 +7,6 @@ spring:
         initialize: false
     profiles:
         active: in-memory-db,development,granular-security,http-basic
-    data:
-        rest:
-            base-path: /api
-            enable-enum-translation: true
     jackson:
         mapper:
             infer-property-mutators: false
@@ -20,6 +16,10 @@ security:
     basic:
         enabled: false
 auginc:
+    jwt:
+        header: Authorization
+        secret: s3cr3t
+        expiration: 3600
     cors:
         mapping: /**
         allowedOrigins:
