@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,10 +27,15 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "authority")
 public class Authority implements GrantedAuthority {
+    
+    public static final String ROLE_PREFIX = "ROLE_";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Version
+    private Integer version;
     
     @Column(name = "name", length = 50, unique = true)
     @NotNull

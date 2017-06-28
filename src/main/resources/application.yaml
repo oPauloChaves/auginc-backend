@@ -6,8 +6,10 @@ spring:
     datasource:
         initialize: false
     profiles:
-        active: in-memory-db,development,granular-security,http-basic
+        active: in-memory-db,development,granular-security
     jackson:
+        serialization:
+            INDENT_OUTPUT: true
         mapper:
             infer-property-mutators: false
 logging:

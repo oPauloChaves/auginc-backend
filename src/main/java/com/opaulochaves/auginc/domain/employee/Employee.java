@@ -48,6 +48,7 @@ public class Employee {
     @Column(unique = true, nullable = false)
     private String email;
     
+    @JsonIgnore
     @Size(max = 70, min = 6)
     @Column(nullable = false)
     private String password;
@@ -65,6 +66,7 @@ public class Employee {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     private List<Customer> customers;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employee_authority",
@@ -74,7 +76,10 @@ public class Employee {
                 @JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private List<Authority> authorities;
 
-    private boolean deleted;
+    private boolean enabled = true;
+    
+    @JsonIgnore
+    private boolean deleted = false;
     
     @JsonIgnore
     @Column(name = "token_reset_password")
