@@ -1,46 +1,82 @@
 package com.opaulochaves.auginc.domain.employee;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * This service provides CRUD operations and finder methods for {@link Employee}
+ * objects.
  *
- * @author paulo
+ * @author Paulo Chaves
  */
-@Service
-@Transactional
-public class EmployeeService {
+public interface EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    /**
+     * Creates a new employee entry.
+     *
+     * @param newEmplyeeEntry The information of the created employee entry.
+     * @return The information of the created employee entry.
+     */
+    EmployeeDTO create(EmployeeRequestDTO newEmplyeeEntry);
 
-    public EmployeeService() {
-    }
+    /**
+     * Deletes an employee entry from the database.
+     *
+     * @param id The id of the deleted employee entry.
+     * @return The information of the deleted employee entry.
+     * @throws EmployeeNotFoundException if the deleted employee entry is not
+     * found.
+     */
+    EmployeeDTO delete(Long id);
 
-    public Employee create(Employee employee) {
-        return employeeRepository.save(employee);
-    }
+    /**
+     * Finds all employee entries that are saved to the database.
+     *
+     * @return
+     */
+    List<EmployeeDTO> findAll();
 
-    public Employee update(Long id, Employee employee) {
-        Employee existingEmployee = employeeRepository.findOne(id);
-        employee.setFirstName(employee.getFirstName());
-        employee.setLastName(employee.getLastName());
-        employee.setPhoneNumber(employee.getPhoneNumber());
-
-        return employeeRepository.save(existingEmployee);
-    }
+    /**
+     * Finds an employee entry by using the id given as a method parameter.
+     *
+     * @param id The id of the wanted employee entry.
+     * @return The information of the requested employee entry.
+     * @throws EmployeeNotFoundException if no employee entry is found with the
+     * given id.
+     */
+    EmployeeDTO findById(Long id);
     
-    @Transactional(readOnly = true)
-    public Page<Employee> findAll(Pageable pageable) {
-        return employeeRepository.findAll(pageable);
-    }
-    
-    public void delete(Long id) {
-        Employee existingEmployee = employeeRepository.findOne(id);
-        existingEmployee.setDeleted(true);
-        employeeRepository.save(existingEmployee);
-    }
+    /**
+     * Finds an employee entry by using the email given as a method parameter.
+     *
+     * @param email The email of the wanted employee entry.
+     * @return The information of the requested employee entry.
+     * @throws EmployeeNotFoundException if no employee entry is found with the
+     * given email.
+     */
+    Employee findByEmail(String email);
+
+    /**
+     * Updates the information of an existing employee.
+     *
+     * @param updatedEmployeeEntry The new information of an existing employee
+     * entry.
+     * @return The information of the updated employee entry.
+     * @throws EmployeeNotFoundException if no employee entry is found with the
+     * given id.
+     */
+    EmployeeDTO update(EmployeeRequestDTO updatedEmployeeEntry);
+
+    /**
+     * Finds employee entries whose first name or last name contains the given
+     * search term. This search is case insensitive.
+     *
+     * @param searchTerm The search term.
+     * @param pageRequest The information of the requested page.
+     * @return A list of employee entries whose title or description contains
+     * the given search term. The returned list is sorted by using the sort
+     * specification given as a method parameter.
+     */
+    Page<EmployeeDTO> findBySearchTerm(String searchTerm, Pageable pageRequest);
 }

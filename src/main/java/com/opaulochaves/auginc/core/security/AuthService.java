@@ -1,7 +1,7 @@
 package com.opaulochaves.auginc.core.security;
 
 import com.opaulochaves.auginc.domain.employee.Employee;
-import com.opaulochaves.auginc.domain.employee.EmployeeRepository;
+import com.opaulochaves.auginc.domain.employee.EmployeeService;
 import com.opaulochaves.auginc.web.dto.LoginRequestDTO;
 import com.opaulochaves.auginc.web.util.JwtTokenUtil;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -52,7 +52,7 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Reload password post-security so we can generate token
-        final Employee employee = employeeRepository.findByEmail(loginRequest.getUsername());
+        final Employee employee = employeeService.findByEmail(loginRequest.getUsername());
         final EmployeeDetails employeeDetails = new EmployeeDetails(employee);
         return employeeDetails;
     }
@@ -63,7 +63,7 @@ public class AuthService {
         // authToken.startsWith("Bearer ")
         // String authToken = header.substring(7);
         String email = jwtTokenUtil.getEmailFromToken(authToken);
-        final Employee employee = employeeRepository.findByEmail(email);
+        final Employee employee = employeeService.findByEmail(email);
         if (jwtTokenUtil.canTokenBeRefreshed(authToken, employee.getLastResetPasswordDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(authToken);
             return refreshedToken;

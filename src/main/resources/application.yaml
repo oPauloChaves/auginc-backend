@@ -46,6 +46,8 @@ logging:
 ---
 spring:
     profiles: development
+    jpa:
+        show-sql: true
     datasource:
         initialize: true
 
