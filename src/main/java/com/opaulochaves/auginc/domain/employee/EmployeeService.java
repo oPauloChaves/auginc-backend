@@ -38,7 +38,8 @@ public interface EmployeeService {
     List<EmployeeDTO> findAll();
 
     /**
-     * Finds an employee entry by using the id given as a method parameter.
+     * Finds an employee entry by using the id given as a method parameter. It
+     * returns a DTO from the retrieved entity
      *
      * @param id The id of the wanted employee entry.
      * @return The information of the requested employee entry.
@@ -46,7 +47,18 @@ public interface EmployeeService {
      * given id.
      */
     EmployeeDTO findById(Long id);
-    
+
+    /**
+     * Finds an employee entry by using the id given as a method parameter. It
+     * returns an entity employee from the database
+     *
+     * @param id The id of the wanted employee entry.
+     * @return The information of the requested employee entry.
+     * @throws EmployeeNotFoundException if no employee entry is found with the
+     * given id.
+     */
+    Employee findEntityById(Long id);
+
     /**
      * Finds an employee entry by using the email given as a method parameter.
      *

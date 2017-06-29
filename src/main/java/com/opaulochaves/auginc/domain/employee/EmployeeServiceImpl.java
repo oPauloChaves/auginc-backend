@@ -84,6 +84,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional(readOnly = true)
     @Override
+    public Employee findEntityById(Long id) {
+        LOG.info("Finding an employee entry with id: {}", id);
+
+        Employee employeeEntry = findTodoEntryById(id);
+        LOG.debug("Found employee entry: {}", employeeEntry);
+        
+        return employeeEntry;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public Employee findByEmail(String email) {
         LOG.info("Finding an employee entry with email: {}", email);
         

@@ -2,6 +2,7 @@ package com.opaulochaves.auginc.domain.employee.brands;
 
 import com.opaulochaves.auginc.domain.employee.Employee;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
 
+    Optional<Brand> findById(Long id);
+    
     List<Brand> findByNameLikeIgnoreCaseOrderByNameAsc(@Param("name") String name);
 
     /**
@@ -36,7 +39,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
      * @param employeeID
      * @return
      */
-    Brand findByIdAndEmployee_id(Long id, Long employeeID);
+    Optional<Brand> findByIdAndEmployee_id(Long id, Long employeeID);
 
     /**
      * Find all brands where its name contains the given search term
@@ -48,7 +51,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
      * request given as a method parameter.
      */
     @Query("SELECT b FROM Brand b WHERE b.name like %:searchTerm%")
-    Page<Employee> findBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageRequest);
+    Page<Brand> findBySearchTerm(@Param("searchTerm") String searchTerm, Pageable pageRequest);
 
     /**
      * Find all brands represented by an employee where the brands name contains
@@ -62,6 +65,6 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
      * request given as a method parameter.
      */
     @Query("SELECT b FROM Brand b WHERE b.employee.id = :employeeId and b.name like %:searchTerm%")
-    Page<Employee> findEmployeesBrandsBySearchTerm(@Param("searchTerm") String searchTerm,
+    Page<Brand> findEmployeesBrandsBySearchTerm(@Param("searchTerm") String searchTerm,
             @Param("employeeId") Long employeeId, Pageable pageRequest);
 }

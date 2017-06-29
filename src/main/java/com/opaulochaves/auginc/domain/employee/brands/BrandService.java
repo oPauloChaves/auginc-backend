@@ -83,6 +83,7 @@ public interface BrandService {
      *
      * @param id
      * @return
+     * @throws EntryNotFoundException if the brand entry is not found.
      */
     BrandDTO findByID(Long id);
 
@@ -93,6 +94,7 @@ public interface BrandService {
      * @param id
      * @param employeeID
      * @return
+     * @throws EntryNotFoundException if the brand entry is not found.
      */
     BrandDTO findBrandsEmployeeByID(Long id, Long employeeID);
 
@@ -100,10 +102,9 @@ public interface BrandService {
      * Update an existing brand of a specific employee
      *
      * @param updatedEntry
-     * @param employeeID
      * @return
      */
-    BrandDTO update(BrandDTO updatedEntry, Long employeeID);
+    BrandDTO update(BrandDTO updatedEntry);
 
     /**
      * Finds brands entries whose name contains the given search term. This

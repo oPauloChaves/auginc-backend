@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author paulo
+ * @author Paulo Chaves
  */
 @RestController
 @RequestMapping("/api/employees")
@@ -125,12 +125,12 @@ public class EmployeeController {
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#id)")
     EmployeeDTO findById(@PathVariable("id") Long id) {
-        LOG.info("Finding employee employee by using id: {}", id);
+        LOG.info("Finding employee by using id: {}", id);
 
-        EmployeeDTO todoEntry = employeeService.findById(id);
-        LOG.info("Found employee entry: {}", todoEntry);
+        EmployeeDTO entry = employeeService.findById(id);
+        LOG.info("Found employee entry: {}", entry);
 
-        return todoEntry;
+        return entry;
     }
 
     /**

@@ -3,7 +3,7 @@ package com.opaulochaves.auginc.domain.employee.brands;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +30,7 @@ public class BrandDTO {
     @DecimalMin("0")
     private BigDecimal commission;
 
-    @NotEmpty
-    @Min(0)
+    @NotNull
     @JsonProperty("employee_id")
     private Long employeeID;
 
