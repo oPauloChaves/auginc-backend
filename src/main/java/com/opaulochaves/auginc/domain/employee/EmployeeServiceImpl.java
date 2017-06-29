@@ -1,5 +1,6 @@
 package com.opaulochaves.auginc.domain.employee;
 
+import com.opaulochaves.auginc.domain.common.EntryNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -136,11 +137,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Employee findTodoEntryById(Long id) {
         Optional<Employee> todoResult = employeeRepository.findById(id);
-        return todoResult.orElseThrow(() -> new EmployeeNotFoundException(id));
+        return todoResult.orElseThrow(() -> new EntryNotFoundException(id));
     }
 
     private Employee findTodoEntryByEmail(String email) {
         Optional<Employee> todoResult = employeeRepository.findByEmail(email);
-        return todoResult.orElseThrow(() -> new EmployeeNotFoundException());
+        return todoResult.orElseThrow(() -> new EntryNotFoundException());
     }
 }

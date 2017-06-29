@@ -78,7 +78,8 @@ public class EmployeeController {
     }
 
     /**
-     * Deletes a employee entry.
+     * Deletes an employee entry. For this application deleting an employee means
+     * setting the <b>deleted</b> field to {@literal false}
      *
      * @param id The id of the deleted employee entry.
      * @return The information of the deleted employee entry.

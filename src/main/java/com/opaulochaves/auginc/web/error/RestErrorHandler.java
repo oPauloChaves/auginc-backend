@@ -1,6 +1,6 @@
 package com.opaulochaves.auginc.web.error;
 
-import com.opaulochaves.auginc.domain.employee.EmployeeNotFoundException;
+import com.opaulochaves.auginc.domain.common.EntryNotFoundException;
 import java.util.List;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * This class handles the exceptions thrown by our REST API.
  *
- * @author Petri Kainulainen https://github.com/pkainulainen/spring-data-jpa-examples
+ * @author Petri Kainulainen
+ * https://github.com/pkainulainen/spring-data-jpa-examples
  */
 @ControllerAdvice
 @Slf4j
 public final class RestErrorHandler {
 
+    private static final String ERROR_CODE_ENTRY_ID_NOT_FOUND = "error.entry.id.not.found";
     private static final String ERROR_CODE_ENTRY_NOT_FOUND = "error.entry.not.found";
 
     private final MessageSource messageSource;
@@ -36,22 +38,24 @@ public final class RestErrorHandler {
     }
 
     /**
-     * Processes an error that occurs when the requested employee entry is not
-     * found.
+     * Processes an error that occurs when the requested entry is not found.
      *
-     * @param ex The exception that was thrown when the employee entry was not
-     * found.
+     * @param ex The exception that was thrown when the entry was not found.
      * @param currentLocale The current locale.
      * @return An error object that contains the error code and message.
      */
-    @ExceptionHandler(EmployeeNotFoundException.class)
+    @ExceptionHandler(EntryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    ErrorDTO handleEntryNotFound(EmployeeNotFoundException ex, Locale currentLocale) {
-        LOG.error("Entry was not found by using id: {}", ex.getId());
+    ErrorDTO handleEntryNotFound(EntryNotFoundException ex, Locale currentLocale) {
+        String msg = "Entry was not found";
+        if (ex.getId() != null) {
+            msg += " by using id: {}";
+        }
+        LOG.error(msg, ex.getId());
 
         MessageSourceResolvable errorMessageRequest = createSingleErrorMessageRequest(
-                ERROR_CODE_ENTRY_NOT_FOUND,
+                ex.getId() != null ? ERROR_CODE_ENTRY_ID_NOT_FOUND : ERROR_CODE_ENTRY_NOT_FOUND,
                 ex.getId()
         );
 
@@ -100,7 +104,6 @@ public final class RestErrorHandler {
 //            String[] fieldErrorCodes = fieldError.getCodes();
 //            localizedErrorMessage = fieldErrorCodes[0];
 //        }
-
         return localizedErrorMessage;
     }
 }
