@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Setter
 @NoArgsConstructor
 @ToString
-public class EmployeeRequestDTO {
+public class EmployeeEditDTO {
     
     private Long id;
 
@@ -38,7 +38,6 @@ public class EmployeeRequestDTO {
     @Size(max = 255)
     private String email;
     
-    @NotEmpty
     @Length(min = 8, max = 20)
     @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Deve ter apenas letras e números")
     private String password;
@@ -49,6 +48,6 @@ public class EmployeeRequestDTO {
     
     private String title;
     
-    private boolean enabled;
+    private boolean enabled = true;
 
 }

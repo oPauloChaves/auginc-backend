@@ -1,6 +1,7 @@
 package com.opaulochaves.auginc.web;
 
 import com.opaulochaves.auginc.domain.employee.EmployeeDTO;
+import com.opaulochaves.auginc.domain.employee.EmployeeEditDTO;
 import com.opaulochaves.auginc.domain.employee.EmployeeNotFoundException;
 import com.opaulochaves.auginc.domain.employee.EmployeeRequestDTO;
 import com.opaulochaves.auginc.domain.employee.EmployeeService;
@@ -122,6 +123,7 @@ public class EmployeeController {
      * the given id.
      */
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#id)")
     EmployeeDTO findById(@PathVariable("id") Long id) {
         LOG.info("Finding employee employee by using id: {}", id);
 
@@ -140,7 +142,9 @@ public class EmployeeController {
      * the given id.
      */
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    EmployeeDTO update(@RequestBody @Valid EmployeeRequestDTO updatedEntry) {
+    @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#id)")
+    EmployeeDTO update(@PathVariable("id") Long id, @RequestBody @Valid EmployeeEditDTO updatedEntry) {
+        updatedEntry.setId(id);
         LOG.info("Updating an employee entry by using information: {}", updatedEntry);
 
         EmployeeDTO updated = employeeService.update(updatedEntry);

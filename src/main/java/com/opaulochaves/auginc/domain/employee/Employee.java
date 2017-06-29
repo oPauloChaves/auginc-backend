@@ -46,7 +46,7 @@ public class Employee extends AbstractEntity {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Size(max = 70, min = 6)
+    @Size(max = 100, min = 8)
     @Column(nullable = false)
     private String password;
 

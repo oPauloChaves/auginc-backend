@@ -95,7 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional
     @Override
-    public EmployeeDTO update(EmployeeRequestDTO updatedEntry) {
+    public EmployeeDTO update(EmployeeEditDTO updatedEntry) {
         LOG.info("Updating the information of an employee entry by using information: {}", updatedEntry);
 
         Employee updated = findTodoEntryById(updatedEntry.getId());

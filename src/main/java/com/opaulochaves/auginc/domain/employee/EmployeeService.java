@@ -66,7 +66,7 @@ public interface EmployeeService {
      * @throws EmployeeNotFoundException if no employee entry is found with the
      * given id.
      */
-    EmployeeDTO update(EmployeeRequestDTO updatedEmployeeEntry);
+    EmployeeDTO update(EmployeeEditDTO updatedEmployeeEntry);
 
     /**
      * Finds employee entries whose first name or last name contains the given
