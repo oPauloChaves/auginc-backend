@@ -21,7 +21,7 @@
 
     <logger name="org.springframework.security" level="info"/>
 
-    <logger name="com.opaulochaves.augic" level="debug"/>
+    <logger name="com.opaulochaves.auginc" level="debug"/>
 
     <root level="warn">
         <appender-ref ref="STDOUT"/>
