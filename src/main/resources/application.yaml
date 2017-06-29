@@ -50,6 +50,9 @@ spring:
         show-sql: true
     datasource:
         initialize: true
+auginc:
+    jwt:
+        expiration: 604800
 
 ---
 spring:
