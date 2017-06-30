@@ -29,7 +29,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     @Override
     public BrandDTO create(BrandDTO newEntry) {
-        LOG.info("Creating a new brand entry from: {}", newEntry);
+        LOG.debug("Creating a new brand entry from: {}", newEntry);
 
         Employee employee = employeeService.findEntityById(newEntry.getEmployeeID());
         Brand created = new Brand();
@@ -60,10 +60,10 @@ public class BrandServiceImpl implements BrandService {
     @Transactional(readOnly = true)
     @Override
     public List<BrandDTO> findAll() {
-        LOG.info("Finding all brand entries.");
+        LOG.debug("Finding all brand entries.");
 
         List<Brand> allEntries = brandRepository.findAll();
-        LOG.info("Found {} brand entries", allEntries.size());
+        LOG.debug("Found {} brand entries", allEntries.size());
 
         return BrandMapper.mapEntitiesIntoDTOs(allEntries);
     }
@@ -71,10 +71,10 @@ public class BrandServiceImpl implements BrandService {
     @Transactional(readOnly = true)
     @Override
     public Page<BrandDTO> findAll(Pageable pageRequest) {
-        LOG.info("Finding all brand entries.");
+        LOG.debug("Finding all brand entries.");
 
         Page<Brand> pageResult = brandRepository.findAll(pageRequest);
-        LOG.info("Found {} brand entries. Returned page {} contains {} brand entries",
+        LOG.debug("Found {} brand entries. Returned page {} contains {} brand entries",
                 pageResult.getTotalElements(),
                 pageResult.getNumber(),
                 pageResult.getNumberOfElements()
@@ -86,10 +86,10 @@ public class BrandServiceImpl implements BrandService {
     @Transactional(readOnly = true)
     @Override
     public List<BrandDTO> findByEmployeeID(Long employeeID) {
-        LOG.info("Finding all brand entries of an employee ID.");
+        LOG.debug("Finding all brand entries of an employee ID.");
 
         List<Brand> allEntries = brandRepository.findByEmployee_id(employeeID);
-        LOG.info("Found {} brand entries for the employee #{}", allEntries.size(), employeeID);
+        LOG.debug("Found {} brand entries for the employee #{}", allEntries.size(), employeeID);
 
         return BrandMapper.mapEntitiesIntoDTOs(allEntries);
     }
@@ -102,21 +102,32 @@ public class BrandServiceImpl implements BrandService {
     @Transactional(readOnly = true)
     @Override
     public BrandDTO findByID(Long id) {
-        LOG.info("Finding an brand entry with id: {}", id);
+        LOG.debug("Finding an brand entry with id: {}", id);
 
         Brand entry = findEntryById(id, null);
-        LOG.info("Found brand entry: {}", entry);
+        LOG.debug("Found brand entry: {}", entry);
 
         return BrandMapper.mapEntityIntoDTO(entry);
+    }
+    
+    @Transactional(readOnly = true)
+    @Override
+    public List<BrandDTO> findByIds(Iterable<Long> ids) {
+        LOG.debug("Finding brands by their ids: {}", ids);
+        
+        List<Brand> entries = brandRepository.findAll(ids);
+        LOG.debug("Found {} brand entries", entries.size());
+        
+        return BrandMapper.mapEntitiesIntoDTOs(entries);
     }
 
     @Transactional(readOnly = true)
     @Override
     public BrandDTO findBrandsEmployeeByID(Long id, Long employeeID) {
-        LOG.info("Finding an brand entry with id {} of an employee with id {}", id, employeeID);
+        LOG.debug("Finding an brand entry with id {} of an employee with id {}", id, employeeID);
 
         Brand entry = findEntryById(id, employeeID);
-        LOG.info("Found an brand {}", entry);
+        LOG.debug("Found an brand {}", entry);
 
         return BrandMapper.mapEntityIntoDTO(entry);
     }
@@ -124,7 +135,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     @Override
     public BrandDTO update(BrandDTO updatedEntry) {
-        LOG.info("Updating a brand entry by using information: {}", updatedEntry);
+        LOG.debug("Updating a brand entry by using information: {}", updatedEntry);
 
         Brand updated = findEntryById(updatedEntry.getId(), updatedEntry.getEmployeeID());
         updated.setName(updatedEntry.getName());
@@ -132,7 +143,7 @@ public class BrandServiceImpl implements BrandService {
 
         brandRepository.flush();
 
-        LOG.info("Updated the brand entry: {}", updated);
+        LOG.debug("Updated the brand entry: {}", updated);
 
         return BrandMapper.mapEntityIntoDTO(updated);
     }
@@ -140,11 +151,11 @@ public class BrandServiceImpl implements BrandService {
     @Transactional(readOnly = true)
     @Override
     public Page<BrandDTO> findBySearchTerm(String searchTerm, Pageable pageRequest) {
-        LOG.info("Finding brand entries by search term: {} and page request: {}", searchTerm, pageRequest);
+        LOG.debug("Finding brand entries by search term: {} and page request: {}", searchTerm, pageRequest);
 
         Page<Brand> searchResult = brandRepository.findBySearchTerm(searchTerm, pageRequest);
 
-        LOG.info("Found {} brand entries. Returned page {} contains {} brand entries",
+        LOG.debug("Found {} brand entries. Returned page {} contains {} brand entries",
                 searchResult.getTotalElements(),
                 searchResult.getNumber(),
                 searchResult.getNumberOfElements()
@@ -156,11 +167,11 @@ public class BrandServiceImpl implements BrandService {
     @Transactional(readOnly = true)
     @Override
     public Page<BrandDTO> findEmployeesBrandsBySearchTerm(String searchTerm, Long employeeID, Pageable pageRequest) {
-        LOG.info("Finding brand entries by search term: {} and page request: {} and employee: {}", searchTerm, pageRequest, employeeID);
+        LOG.debug("Finding brand entries by search term: {} and page request: {} and employee: {}", searchTerm, pageRequest, employeeID);
 
         Page<Brand> searchResult = brandRepository.findEmployeesBrandsBySearchTerm(searchTerm, employeeID, pageRequest);
 
-        LOG.info("Found {} brand entries. Returned page {} contains {} brand entries",
+        LOG.debug("Found {} brand entries. Returned page {} contains {} brand entries",
                 searchResult.getTotalElements(),
                 searchResult.getNumber(),
                 searchResult.getNumberOfElements()

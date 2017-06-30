@@ -114,6 +114,17 @@ public class CustomerServiceImpl implements CustomerService {
 
         return CustomerMapper.mapEntityIntoDTO(entry);
     }
+    
+    @Transactional(readOnly = true)
+    @Override
+    public List<CustomerDTO> findByIds(Iterable<Long> ids) {
+        LOG.info("Finding customer by their ids: {}", ids);
+        
+        List<Customer> entries = customerRepository.findAll(ids);
+        LOG.debug("Found {} customers entries", entries.size());
+        
+        return CustomerMapper.mapEntitiesIntoDTOs(entries);
+    }
 
     @Transactional(readOnly = true)
     @Override

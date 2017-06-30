@@ -2,6 +2,7 @@ package com.opaulochaves.auginc.web;
 
 import com.opaulochaves.auginc.domain.employee.customers.CustomerDTO;
 import com.opaulochaves.auginc.domain.employee.customers.CustomerService;
+import com.opaulochaves.auginc.web.util.ListIds;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -93,10 +94,10 @@ public class CustomerController {
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public CustomerDTO create(@PathVariable("employeeID") Long employeeID, @RequestBody @Valid CustomerDTO newEntry) {
         newEntry.setEmployeeID(employeeID);
-        LOG.info("Creating a new customer entry by using information: {}", newEntry);
+        LOG.debug("Creating a new customer entry by using information: {}", newEntry);
 
         CustomerDTO created = customerService.create(newEntry);
-        LOG.info("Created a new customer entry: {}", created);
+        LOG.debug("Created a new customer entry: {}", created);
 
         return created;
     }
@@ -112,10 +113,10 @@ public class CustomerController {
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public CustomerDTO update(@PathVariable("employeeID") Long employeeID, @RequestBody @Valid CustomerDTO updatedEntry) {
         updatedEntry.setEmployeeID(employeeID);
-        LOG.info("Updating customer entry by using information: {}", updatedEntry);
+        LOG.debug("Updating customer entry by using information: {}", updatedEntry);
 
         CustomerDTO updated = customerService.update(updatedEntry);
-        LOG.info("Updated a customer entry: {}", updated);
+        LOG.debug("Updated a customer entry: {}", updated);
 
         return updated;
     }
@@ -129,7 +130,7 @@ public class CustomerController {
     @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Page<CustomerDTO> findAll(Pageable pageRequest) {
-        LOG.info("Finding all customer entries");
+        LOG.debug("Finding all customer entries");
 
         Page<CustomerDTO> entries = customerService.findAll(pageRequest);
         LOG.debug("Found {} todo entries. Returned page {} contains {} todo entries",
@@ -150,10 +151,10 @@ public class CustomerController {
     @RequestMapping(value = "/api/employees/{employeeID}/customers", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public List<CustomerDTO> findByEmployeeID(@PathVariable Long employeeID) {
-        LOG.info("Finding all customer entries of an employee");
+        LOG.debug("Finding all customer entries of an employee");
 
         List<CustomerDTO> entries = customerService.findByEmployeeID(employeeID);
-        LOG.info("Found {} customer entries.", entries.size());
+        LOG.debug("Found {} customer entries.", entries.size());
 
         return entries;
     }
@@ -167,12 +168,23 @@ public class CustomerController {
     @RequestMapping(value = "/api/customers/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public CustomerDTO findById(@PathVariable Long id) {
-        LOG.info("Finding customer by using id: {}", id);
+        LOG.debug("Finding customer by using id: {}", id);
 
         CustomerDTO entry = customerService.findByID(id);
-        LOG.info("Found customer entry: {}", entry);
+        LOG.debug("Found customer entry: {}", entry);
 
         return entry;
+    }
+    
+    @RequestMapping(value = "/api/customers/list", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<CustomerDTO> findByIds(ListIds ids) {
+        LOG.debug("Finding customer by their ids: {}", ids.getIds());
+        
+        List<CustomerDTO> entries = customerService.findByIds(ids.getIds());
+        LOG.debug("Found {} customer entries", entries.size());
+        
+        return entries;
     }
 
     /**
@@ -185,10 +197,10 @@ public class CustomerController {
     @RequestMapping(value = "/api/employees/{employeeID}/customers/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public CustomerDTO findCustomersEmployeeByID(@PathVariable Long id, @PathVariable Long employeeID) {
-        LOG.info("Finding customer by using id: {}", id);
+        LOG.debug("Finding customer by using id: {}", id);
 
         CustomerDTO entry = customerService.findCustomersEmployeeByID(id, employeeID);
-        LOG.info("Found customer entry: {}", entry);
+        LOG.debug("Found customer entry: {}", entry);
 
         return entry;
     }

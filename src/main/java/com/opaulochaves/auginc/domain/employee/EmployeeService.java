@@ -44,7 +44,7 @@ public interface EmployeeService {
      * @return
      */
     Page<EmployeeDTO> findAll(Pageable pageRequest);
-    
+
     /**
      * Finds an employee entry by using the id given as a method parameter. It
      * returns a DTO from the retrieved entity
@@ -55,6 +55,14 @@ public interface EmployeeService {
      * given id.
      */
     EmployeeDTO findById(Long id);
+
+    /**
+     * Finds a list of of employees given their ids
+     *
+     * @param ids
+     * @return
+     */
+    List<EmployeeDTO> findByIds(Iterable<Long> ids);
 
     /**
      * Finds an employee entry by using the id given as a method parameter. It

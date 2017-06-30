@@ -61,7 +61,7 @@ public interface BrandService {
      * @return
      */
     List<BrandDTO> findAll();
-    
+
     /**
      * Find all brands entry
      *
@@ -93,6 +93,14 @@ public interface BrandService {
      * @throws EntryNotFoundException if the brand entry is not found.
      */
     BrandDTO findByID(Long id);
+
+    /**
+     * Find brands by their ids
+     *
+     * @param ids
+     * @return
+     */
+    List<BrandDTO> findByIds(Iterable<Long> ids);
 
     /**
      * Find a brand entry of a specific employee given the brands ID and

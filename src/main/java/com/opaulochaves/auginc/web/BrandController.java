@@ -2,6 +2,7 @@ package com.opaulochaves.auginc.web;
 
 import com.opaulochaves.auginc.domain.employee.brands.BrandDTO;
 import com.opaulochaves.auginc.domain.employee.brands.BrandService;
+import com.opaulochaves.auginc.web.util.ListIds;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -93,10 +94,10 @@ public class BrandController {
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public BrandDTO create(@PathVariable("employeeID") Long employeeID, @RequestBody @Valid BrandDTO newEntry) {
         newEntry.setEmployeeID(employeeID);
-        LOG.info("Creating a new brand entry by using information: {}", newEntry);
+        LOG.debug("Creating a new brand entry by using information: {}", newEntry);
 
         BrandDTO created = brandService.create(newEntry);
-        LOG.info("Created a new brand entry: {}", created);
+        LOG.debug("Created a new brand entry: {}", created);
 
         return created;
     }
@@ -112,10 +113,10 @@ public class BrandController {
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public BrandDTO update(@PathVariable("employeeID") Long employeeID, @RequestBody @Valid BrandDTO updatedEntry) {
         updatedEntry.setEmployeeID(employeeID);
-        LOG.info("Updating brand entry by using information: {}", updatedEntry);
+        LOG.debug("Updating brand entry by using information: {}", updatedEntry);
 
         BrandDTO updated = brandService.update(updatedEntry);
-        LOG.info("Updated a brand entry: {}", updated);
+        LOG.debug("Updated a brand entry: {}", updated);
 
         return updated;
     }
@@ -129,7 +130,7 @@ public class BrandController {
     @RequestMapping(value = "/api/brands", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Page<BrandDTO> findAll(Pageable pageRequest) {
-        LOG.info("Finding all brand entries");
+        LOG.debug("Finding all brand entries");
 
         Page<BrandDTO> pageResult = brandService.findAll(pageRequest);
         LOG.debug("Found {} todo entries. Returned page {} contains {} todo entries",
@@ -150,10 +151,10 @@ public class BrandController {
     @RequestMapping(value = "/api/employees/{employeeID}/brands", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public List<BrandDTO> findByEmployeeID(@PathVariable Long employeeID) {
-        LOG.info("Finding all brand entries of an employee");
+        LOG.debug("Finding all brand entries of an employee");
 
         List<BrandDTO> entries = brandService.findByEmployeeID(employeeID);
-        LOG.info("Found {} brand entries.", entries.size());
+        LOG.debug("Found {} brand entries.", entries.size());
 
         return entries;
     }
@@ -167,12 +168,23 @@ public class BrandController {
     @RequestMapping(value = "/api/brands/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public BrandDTO findById(@PathVariable Long id) {
-        LOG.info("Finding brand by using id: {}", id);
+        LOG.debug("Finding brand by using id: {}", id);
 
         BrandDTO entry = brandService.findByID(id);
-        LOG.info("Found brand entry: {}", entry);
+        LOG.debug("Found brand entry: {}", entry);
 
         return entry;
+    }
+    
+    @RequestMapping(value = "/api/brands/list", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<BrandDTO> findByIds(ListIds ids) {
+        LOG.debug("Find brands by their ids: {}", ids.getIds());
+        
+        List<BrandDTO> entries = brandService.findByIds(ids.getIds());
+        LOG.debug("Found {} brand entries", entries.size());
+        
+        return entries;
     }
 
     /**
@@ -185,10 +197,10 @@ public class BrandController {
     @RequestMapping(value = "/api/employees/{employeeID}/brands/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
     public BrandDTO findBrandsEmployeeByID(@PathVariable Long id, @PathVariable Long employeeID) {
-        LOG.info("Finding brand by using id: {}", id);
+        LOG.debug("Finding brand by using id: {}", id);
 
         BrandDTO entry = brandService.findBrandsEmployeeByID(id, employeeID);
-        LOG.info("Found brand entry: {}", entry);
+        LOG.debug("Found brand entry: {}", entry);
 
         return entry;
     }

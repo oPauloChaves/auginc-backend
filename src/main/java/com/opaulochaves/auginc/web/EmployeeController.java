@@ -5,6 +5,8 @@ import com.opaulochaves.auginc.domain.employee.EmployeeEditDTO;
 import com.opaulochaves.auginc.domain.employee.EmployeeNotFoundException;
 import com.opaulochaves.auginc.domain.employee.EmployeeRequestDTO;
 import com.opaulochaves.auginc.domain.employee.EmployeeService;
+import com.opaulochaves.auginc.web.util.ListIds;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +49,10 @@ public class EmployeeController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     public Page<EmployeeDTO> findBySearchTerm(@RequestParam("q") String searchTerm, Pageable pageRequest) {
-        LOG.info("Finding employee entries by search term: {} and page request: {}", searchTerm, pageRequest);
+        LOG.debug("Finding employee entries by search term: {} and page request: {}", searchTerm, pageRequest);
 
         Page<EmployeeDTO> searchResult = employeeService.findBySearchTerm(searchTerm, pageRequest);
-        LOG.info("Found {} employee entries. Returned page {} contains {} employee entries",
+        LOG.debug("Found {} employee entries. Returned page {} contains {} employee entries",
                 searchResult.getTotalElements(),
                 searchResult.getNumber(),
                 searchResult.getNumberOfElements()
@@ -69,10 +71,10 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     EmployeeDTO create(@RequestBody @Valid EmployeeRequestDTO newEntry) {
-        LOG.info("Creating a new employee entry by using information: {}", newEntry);
+        LOG.debug("Creating a new employee entry by using information: {}", newEntry);
 
         EmployeeDTO created = employeeService.create(newEntry);
-        LOG.info("Created a new employee entry: {}", created);
+        LOG.debug("Created a new employee entry: {}", created);
 
         return created;
     }
@@ -89,10 +91,10 @@ public class EmployeeController {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('ADMIN')")
     public EmployeeDTO delete(@PathVariable("id") Long id) {
-        LOG.info("Deleting a todo entry with id: {}", id);
+        LOG.debug("Deleting a todo entry with id: {}", id);
 
         EmployeeDTO deleted = employeeService.delete(id);
-        LOG.info("Deleted the todo entry: {}", deleted);
+        LOG.debug("Deleted the todo entry: {}", deleted);
 
         return deleted;
     }
@@ -105,10 +107,10 @@ public class EmployeeController {
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
     Page<EmployeeDTO> findAll(Pageable pageRequest) {
-        LOG.info("Finding all employee entries");
+        LOG.debug("Finding all employee entries");
 
         Page<EmployeeDTO> employeeEntries = employeeService.findAll(pageRequest);
-        LOG.info("Found {} employee entries. Returned page {} contains {} employee entries",
+        LOG.debug("Found {} employee entries. Returned page {} contains {} employee entries",
                 employeeEntries.getTotalElements(),
                 employeeEntries.getNumber(),
                 employeeEntries.getNumberOfElements()
@@ -128,12 +130,23 @@ public class EmployeeController {
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#id)")
     EmployeeDTO findById(@PathVariable("id") Long id) {
-        LOG.info("Finding employee by using id: {}", id);
+        LOG.debug("Finding employee by using id: {}", id);
 
         EmployeeDTO entry = employeeService.findById(id);
-        LOG.info("Found employee entry: {}", entry);
+        LOG.debug("Found employee entry: {}", entry);
 
         return entry;
+    }
+    
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    List<EmployeeDTO> findByIds(ListIds ids) {
+        LOG.debug("Finding employees by their ids: {}", ids.getIds());
+        
+        List<EmployeeDTO> entries = employeeService.findByIds(ids.getIds());
+        LOG.debug("Found {} employees", entries.size());
+        
+        return entries;
     }
 
     /**
@@ -148,10 +161,10 @@ public class EmployeeController {
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#id)")
     EmployeeDTO update(@PathVariable("id") Long id, @RequestBody @Valid EmployeeEditDTO updatedEntry) {
         updatedEntry.setId(id);
-        LOG.info("Updating an employee entry by using information: {}", updatedEntry);
+        LOG.debug("Updating an employee entry by using information: {}", updatedEntry);
 
         EmployeeDTO updated = employeeService.update(updatedEntry);
-        LOG.info("Updated the employee entry: {}", updated);
+        LOG.debug("Updated the employee entry: {}", updated);
 
         return updated;
     }

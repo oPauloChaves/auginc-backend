@@ -98,6 +98,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional(readOnly = true)
     @Override
+    public List<EmployeeDTO> findByIds(Iterable<Long> ids) {
+        LOG.info("Finding a list of employees by ids: {}", ids);
+        
+        List<Employee> entries = employeeRepository.findAll(ids);
+        LOG.debug("Found {} employee entries", entries.size());
+        
+        return EmployeeMapper.mapEntitiesIntoDTOs(entries);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public Employee findEntityById(Long id) {
         LOG.info("Finding an employee entry with id: {}", id);
 

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  * @author Paulo Chaves
  */
 public interface CustomerService {
-    
+
     /**
      * Creates a new customer entry.
      *
@@ -25,18 +25,21 @@ public interface CustomerService {
      * This method is intended to be used by an ADMIN
      *
      * @param id The id of the deleted customer entry.
-     * @throws EntryNotFoundException if the deleted customer entry is not found.
+     * @throws EntryNotFoundException if the deleted customer entry is not
+     * found.
      */
     void delete(Long id);
 
     /**
-     * Deletes a customer entry of a given employee ID from the database.<br><br>
+     * Deletes a customer entry of a given employee ID from the
+     * database.<br><br>
      *
      * This method is intended to be used by a MANAGER or ADMIN
      *
      * @param id The id of the deleted customer entry.
      * @param employeeID The id of the employee
-     * @throws EntryNotFoundException if the deleted customer entry is not found.
+     * @throws EntryNotFoundException if the deleted customer entry is not
+     * found.
      */
     void delete(Long id, Long employeeID);
 
@@ -59,7 +62,7 @@ public interface CustomerService {
      * @return
      */
     List<CustomerDTO> findAll();
-    
+
     /**
      * Find all customers entry
      *
@@ -93,6 +96,14 @@ public interface CustomerService {
     CustomerDTO findByID(Long id);
 
     /**
+     * Find a list of customers by their ids
+     *
+     * @param ids
+     * @return
+     */
+    List<CustomerDTO> findByIds(Iterable<Long> ids);
+
+    /**
      * Find a customer entry of a specific employee given the customers ID and
      * employee's ID
      *
@@ -112,8 +123,8 @@ public interface CustomerService {
     CustomerDTO update(CustomerDTO updatedEntry);
 
     /**
-     * Finds customers entries whose name or email contains the given search term. This
-     * search is case insensitive.
+     * Finds customers entries whose name or email contains the given search
+     * term. This search is case insensitive.
      *
      * @param searchTerm The search term.
      * @param pageRequest The information of the requested page.
@@ -124,8 +135,8 @@ public interface CustomerService {
     Page<CustomerDTO> findBySearchTerm(String searchTerm, Pageable pageRequest);
 
     /**
-     * Finds customers entries of a specific employee whose customers name or email contains
-     * the given search term. This search is case insensitive.
+     * Finds customers entries of a specific employee whose customers name or
+     * email contains the given search term. This search is case insensitive.
      *
      * @param searchTerm The search term.
      * @param employeeID
