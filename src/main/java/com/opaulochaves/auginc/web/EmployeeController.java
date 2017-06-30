@@ -5,7 +5,6 @@ import com.opaulochaves.auginc.domain.employee.EmployeeEditDTO;
 import com.opaulochaves.auginc.domain.employee.EmployeeNotFoundException;
 import com.opaulochaves.auginc.domain.employee.EmployeeRequestDTO;
 import com.opaulochaves.auginc.domain.employee.EmployeeService;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +78,8 @@ public class EmployeeController {
     }
 
     /**
-     * Deletes an employee entry. For this application deleting an employee means
-     * setting the <b>deleted</b> field to {@literal false}
+     * Deletes an employee entry. For this application deleting an employee
+     * means setting the <b>deleted</b> field to {@literal false}
      *
      * @param id The id of the deleted employee entry.
      * @return The information of the deleted employee entry.
@@ -105,11 +104,15 @@ public class EmployeeController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
-    List<EmployeeDTO> findAll() {
+    Page<EmployeeDTO> findAll(Pageable pageRequest) {
         LOG.info("Finding all employee entries");
 
-        List<EmployeeDTO> employeeEntries = employeeService.findAll();
-        LOG.info("Found {} employee entries.", employeeEntries.size());
+        Page<EmployeeDTO> employeeEntries = employeeService.findAll(pageRequest);
+        LOG.info("Found {} employee entries. Returned page {} contains {} employee entries",
+                employeeEntries.getTotalElements(),
+                employeeEntries.getNumber(),
+                employeeEntries.getNumberOfElements()
+        );
 
         return employeeEntries;
     }

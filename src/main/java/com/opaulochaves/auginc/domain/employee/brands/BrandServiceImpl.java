@@ -67,6 +67,21 @@ public class BrandServiceImpl implements BrandService {
 
         return BrandMapper.mapEntitiesIntoDTOs(allEntries);
     }
+    
+    @Transactional(readOnly = true)
+    @Override
+    public Page<BrandDTO> findAll(Pageable pageRequest) {
+        LOG.info("Finding all brand entries.");
+
+        Page<Brand> pageResult = brandRepository.findAll(pageRequest);
+        LOG.info("Found {} brand entries. Returned page {} contains {} brand entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
+
+        return BrandMapper.mapEntityPageIntoDTOPage(pageRequest, pageResult);
+    }
 
     @Transactional(readOnly = true)
     @Override

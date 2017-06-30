@@ -71,6 +71,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         return EmployeeMapper.mapEntitiesIntoDTOs(employeeEntries);
     }
 
+    @Override
+    public Page<EmployeeDTO> findAll(Pageable pageRequest) {
+        LOG.info("Finding all employee entries by page request: {}", pageRequest);
+        
+        Page<Employee> entries = employeeRepository.findAll(pageRequest);
+        LOG.info("Found {} employee entries. Returned page {} contains {} employee entries",
+                entries.getTotalElements(),
+                entries.getNumber(),
+                entries.getNumberOfElements()
+        );
+        
+        return EmployeeMapper.mapEntityPageIntoDTOPage(pageRequest, entries);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public EmployeeDTO findById(Long id) {

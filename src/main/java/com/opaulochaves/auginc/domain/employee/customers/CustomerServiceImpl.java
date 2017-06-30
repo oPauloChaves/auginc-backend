@@ -72,6 +72,21 @@ public class CustomerServiceImpl implements CustomerService {
 
         return CustomerMapper.mapEntitiesIntoDTOs(allEntries);
     }
+    
+    @Transactional(readOnly = true)
+    @Override
+    public Page<CustomerDTO> findAll(Pageable pageRequest) {
+        LOG.info("Finding all customer entries.");
+
+        Page<Customer> pageResult = customerRepository.findAll(pageRequest);
+        LOG.info("Found {} customer entries. Returned page {} contains {} customer entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
+
+        return CustomerMapper.mapEntityPageIntoDTOPage(pageRequest, pageResult);
+    }
 
     @Transactional(readOnly = true)
     @Override

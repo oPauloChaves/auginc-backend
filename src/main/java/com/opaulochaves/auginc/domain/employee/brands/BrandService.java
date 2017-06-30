@@ -61,6 +61,13 @@ public interface BrandService {
      * @return
      */
     List<BrandDTO> findAll();
+    
+    /**
+     * Find all brands entry
+     *
+     * @return
+     */
+    Page<BrandDTO> findAll(Pageable pageRequest);
 
     /**
      * Find all brands entry of a given employee

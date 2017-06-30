@@ -59,6 +59,13 @@ public interface CustomerService {
      * @return
      */
     List<CustomerDTO> findAll();
+    
+    /**
+     * Find all customers entry
+     *
+     * @return
+     */
+    Page<CustomerDTO> findAll(Pageable pageRequest);
 
     /**
      * Find all customers entry of a given employee

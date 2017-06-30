@@ -38,6 +38,14 @@ public interface EmployeeService {
     List<EmployeeDTO> findAll();
 
     /**
+     * Finds all employee entries that are saved to the database.
+     *
+     * @param pageRequest
+     * @return
+     */
+    Page<EmployeeDTO> findAll(Pageable pageRequest);
+    
+    /**
      * Finds an employee entry by using the id given as a method parameter. It
      * returns a DTO from the retrieved entity
      *

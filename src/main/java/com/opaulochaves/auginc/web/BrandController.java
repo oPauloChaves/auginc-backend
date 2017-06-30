@@ -123,17 +123,22 @@ public class BrandController {
     /**
      * Finds all brand entries.
      *
+     * @param pageRequest
      * @return The information of all brand entries.
      */
     @RequestMapping(value = "/api/brands", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
-    public List<BrandDTO> findAll() {
+    public Page<BrandDTO> findAll(Pageable pageRequest) {
         LOG.info("Finding all brand entries");
 
-        List<BrandDTO> entries = brandService.findAll();
-        LOG.info("Found {} brand entries.", entries.size());
+        Page<BrandDTO> pageResult = brandService.findAll(pageRequest);
+        LOG.debug("Found {} todo entries. Returned page {} contains {} todo entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
 
-        return entries;
+        return pageResult;
     }
 
     /**

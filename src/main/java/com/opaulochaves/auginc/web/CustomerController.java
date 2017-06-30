@@ -123,15 +123,20 @@ public class CustomerController {
     /**
      * Finds all customer entries.
      *
+     * @param pageRequest
      * @return The information of all customer entries.
      */
     @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
-    public List<CustomerDTO> findAll() {
+    public Page<CustomerDTO> findAll(Pageable pageRequest) {
         LOG.info("Finding all customer entries");
 
-        List<CustomerDTO> entries = customerService.findAll();
-        LOG.info("Found {} customer entries.", entries.size());
+        Page<CustomerDTO> entries = customerService.findAll(pageRequest);
+        LOG.debug("Found {} todo entries. Returned page {} contains {} todo entries",
+                entries.getTotalElements(),
+                entries.getNumber(),
+                entries.getNumberOfElements()
+        );
 
         return entries;
     }
