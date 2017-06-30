@@ -139,7 +139,7 @@ public class EmployeeController {
     }
     
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#ids.ids.get(0))")
     List<EmployeeDTO> findByIds(ListIds ids) {
         LOG.debug("Finding employees by their ids: {}", ids.getIds());
         

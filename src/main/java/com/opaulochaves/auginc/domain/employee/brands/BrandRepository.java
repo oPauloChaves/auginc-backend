@@ -29,7 +29,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
      * @param employeeId
      * @return
      */
-    List<Brand> findByEmployee_id(Long employeeId);
+    Page<Brand> findByEmployee_id(Long employeeId, Pageable page);
 
     /**
      * Finds a brand by its given ID and ensure that this brand belongs to a

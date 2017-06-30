@@ -85,13 +85,17 @@ public class BrandServiceImpl implements BrandService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<BrandDTO> findByEmployeeID(Long employeeID) {
+    public Page<BrandDTO> findByEmployeeID(Long employeeID, Pageable pageRequest) {
         LOG.debug("Finding all brand entries of an employee ID.");
 
-        List<Brand> allEntries = brandRepository.findByEmployee_id(employeeID);
-        LOG.debug("Found {} brand entries for the employee #{}", allEntries.size(), employeeID);
+        Page<Brand> pageResult = brandRepository.findByEmployee_id(employeeID, pageRequest);
+        LOG.debug("Found {} brand entries. Returned page {} contains {} brand entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
 
-        return BrandMapper.mapEntitiesIntoDTOs(allEntries);
+        return BrandMapper.mapEntityPageIntoDTOPage(pageRequest, pageResult);
     }
 
     @Override

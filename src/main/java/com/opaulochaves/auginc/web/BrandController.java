@@ -150,13 +150,17 @@ public class BrandController {
      */
     @RequestMapping(value = "/api/employees/{employeeID}/brands", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
-    public List<BrandDTO> findByEmployeeID(@PathVariable Long employeeID) {
+    public Page<BrandDTO> findByEmployeeID(@PathVariable Long employeeID, Pageable pageRequest) {
         LOG.debug("Finding all brand entries of an employee");
 
-        List<BrandDTO> entries = brandService.findByEmployeeID(employeeID);
-        LOG.debug("Found {} brand entries.", entries.size());
+        Page<BrandDTO> pageResult = brandService.findByEmployeeID(employeeID, pageRequest);
+        LOG.debug("Found {} todo entries. Returned page {} contains {} todo entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
 
-        return entries;
+        return pageResult;
     }
 
     /**

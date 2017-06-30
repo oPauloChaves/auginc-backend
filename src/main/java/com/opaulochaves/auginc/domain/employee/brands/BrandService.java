@@ -75,7 +75,7 @@ public interface BrandService {
      * @param employeeID
      * @return
      */
-    List<BrandDTO> findByEmployeeID(Long employeeID);
+    Page<BrandDTO> findByEmployeeID(Long employeeID, Pageable pageRequest);
 
     /**
      * Find all brands entry of a given employee
