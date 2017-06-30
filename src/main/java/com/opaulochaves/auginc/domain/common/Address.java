@@ -1,11 +1,13 @@
 package com.opaulochaves.auginc.domain.common;
 
+import java.math.BigDecimal;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -21,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Address {
 
     @NotEmpty
-    @Column(name = "street_addres1")
+    @Column(name = "street_addres")
     private String street;
 
     @Column(name = "street_addres2")
@@ -37,11 +39,15 @@ public class Address {
     @NotEmpty
     private String city;
 
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     private FederalState federalState;
 
     @NotEmpty
     private String country;
+    
+    private BigDecimal latitude;
+    
+    private BigDecimal longitude;
 
 }

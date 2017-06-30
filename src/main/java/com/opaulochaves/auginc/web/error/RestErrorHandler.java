@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -35,6 +36,21 @@ public final class RestErrorHandler {
     @Autowired
     public RestErrorHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    /**
+     * This exception handler <i>should</i> handle violations of unique
+     * constraints. TODO: DataIntegrityViolationException is really broad, we need to check
+     * somehow that this only gets invoked for unique constraint violations
+     *
+     * @param e The exception to handle
+     * @return An error message
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    ErrorDTO handleJpaSystemException(DataIntegrityViolationException e) {
+        return new ErrorDTO(HttpStatus.CONFLICT.name(), e.getMostSpecificCause().getMessage());
     }
 
     /**
