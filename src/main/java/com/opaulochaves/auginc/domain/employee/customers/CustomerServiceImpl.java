@@ -90,13 +90,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<CustomerDTO> findByEmployeeID(Long employeeID) {
+    public Page<CustomerDTO> findByEmployeeID(Long employeeID, Pageable pageRequest) {
         LOG.info("Finding all customer entries of an employee ID.");
 
-        List<Customer> allEntries = customerRepository.findByEmployee_id(employeeID);
-        LOG.info("Found {} customer entries for the employee #{}", allEntries.size(), employeeID);
+        Page<Customer> pageResult = customerRepository.findByEmployee_id(employeeID, pageRequest);
+        LOG.info("Found {} customer entries. Returned page {} contains {} customer entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
 
-        return CustomerMapper.mapEntitiesIntoDTOs(allEntries);
+        return CustomerMapper.mapEntityPageIntoDTOPage(pageRequest, pageResult);
     }
 
     @Override

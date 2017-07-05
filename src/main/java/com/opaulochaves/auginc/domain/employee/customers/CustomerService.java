@@ -76,7 +76,7 @@ public interface CustomerService {
      * @param employeeID
      * @return
      */
-    List<CustomerDTO> findByEmployeeID(Long employeeID);
+    Page<CustomerDTO> findByEmployeeID(Long employeeID, Pageable pageRequest);
 
     /**
      * Find all customers entry of a given employee

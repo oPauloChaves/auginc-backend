@@ -153,13 +153,17 @@ public class CustomerController {
      */
     @RequestMapping(value = "/api/employees/{employeeID}/customers", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
-    public List<CustomerDTO> findByEmployeeID(@PathVariable Long employeeID) {
+    public Page<CustomerDTO> findByEmployeeID(@PathVariable Long employeeID, Pageable pageRequest) {
         LOG.debug("Finding all customer entries of an employee");
 
-        List<CustomerDTO> entries = customerService.findByEmployeeID(employeeID);
-        LOG.debug("Found {} customer entries.", entries.size());
+        Page<CustomerDTO> pageResult = customerService.findByEmployeeID(employeeID, pageRequest);
+        LOG.info("Found {} customer entries. Returned page {} contains {} customer entries",
+                pageResult.getTotalElements(),
+                pageResult.getNumber(),
+                pageResult.getNumberOfElements()
+        );
 
-        return entries;
+        return pageResult;
     }
 
     /**

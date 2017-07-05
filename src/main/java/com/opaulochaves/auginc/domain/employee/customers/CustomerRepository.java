@@ -20,7 +20,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     List<Customer> findByEmployee(Employee employee);
 
-    List<Customer> findByEmployee_id(Long employeeID);
+    Page<Customer> findByEmployee_id(Long employeeID, Pageable pageRequest);
 
     List<Customer> findByEmployee_Email(String email);
 

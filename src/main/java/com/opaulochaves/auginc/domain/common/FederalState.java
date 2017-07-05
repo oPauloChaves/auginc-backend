@@ -1,8 +1,7 @@
 package com.opaulochaves.auginc.domain.common;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum FederalState {
 
     AC("Acre"), AL("Alagoas"), AP("Amapá"), AM("Amazonas"),
@@ -24,6 +23,7 @@ public enum FederalState {
         return state;
     }
 
+    @JsonValue
     public String getName() {
         return this.toString();
     }
