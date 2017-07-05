@@ -106,12 +106,15 @@ public class CustomerController {
      * Update a customer entry.
      *
      * @param employeeID The employee ID
+     * @param customerID
      * @param updatedEntry The information of the existing customer entry.
      * @return The information of the updated customer entry.
      */
-    @RequestMapping(value = "/api/employees/{employeeID}/customers", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/employees/{employeeID}/customers/{customerID}", method = RequestMethod.PUT)
     @PreAuthorize("hasRole('ADMIN') or @webSecurity.checkUserID(authentication,#employeeID)")
-    public CustomerDTO update(@PathVariable("employeeID") Long employeeID, @RequestBody @Valid CustomerDTO updatedEntry) {
+    public CustomerDTO update(@PathVariable Long employeeID, @PathVariable Long customerID, 
+            @RequestBody @Valid CustomerDTO updatedEntry) {
+        updatedEntry.setId(customerID);
         updatedEntry.setEmployeeID(employeeID);
         LOG.debug("Updating customer entry by using information: {}", updatedEntry);
 
