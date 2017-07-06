@@ -1,5 +1,6 @@
 package com.opaulochaves.auginc.domain.employee;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Getter
 @Setter
-@Table( uniqueConstraints = { @UniqueConstraint(columnNames = {"type", "employee_id"}) } )
+@Table(name = "settings", uniqueConstraints = { @UniqueConstraint(columnNames = {"type", "employee_id"}) } )
 public class Settings {
 
     public enum SettingsType {
@@ -29,9 +30,11 @@ public class Settings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private SettingsType type;
 
+    @Column
     @NotEmpty
     private String value;
 

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "brands")
+@Table(name = "brands", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "employee_id"})})
 public class Brand extends AbstractEntity {
 
     @NotEmpty

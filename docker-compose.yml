@@ -4,9 +4,9 @@ services:
   postgres:
     restart: on-failure:10
     image: postgres:9.6
-    container_name: postgres
+    container_name: pg_auginc
     volumes:
-      - "data_postgres:/pgdata"
+      - "auginc_postgres:/pgdata"
     ports:
       - "5432:5432"
     environment:
@@ -15,4 +15,4 @@ services:
       - PGDATA=/pgdata
 
 volumes:
-  data_postgres:
+  auginc_postgres:

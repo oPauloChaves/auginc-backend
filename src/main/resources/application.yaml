@@ -3,10 +3,8 @@ spring:
         hibernate:
             naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
             use-new-id-generator-mappings: true
-    datasource:
-        initialize: false
     profiles:
-        active: in-memory-db,development,granular-security
+        active: real-db,development,granular-security
     jackson:
         serialization:
             INDENT_OUTPUT: true
@@ -40,6 +38,19 @@ auginc:
 ---
 spring:
     profiles: production
+    jpa:
+        hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            ddl-auto: validate
+    datasource:
+        initialize: false
+        driverClassName: org.postgresql.Driver
+        url: "${JDBC_DATABASE_URL}"
+        maxActive: 10
+        maxIdle: 5
+        minIdle: 2
+        initialSize: 5
+        removeAbandoned: true
 logging:
     config: classpath:logback-file.xml
 

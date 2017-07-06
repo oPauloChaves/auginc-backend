@@ -7,10 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -22,28 +20,24 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Access(AccessType.FIELD)
 public class Address {
 
-    @NotEmpty
-    @Column(name = "street_addres")
+    @Column(name = "street_address")
     private String street;
 
-    @Column(name = "street_addres2")
+    @Column(name = "street_address2")
     private String street2;
 
-    @NotEmpty
-    @Column(name = "number")
+    @Column(name = "place_number")
     private String houseNumber;
 
-    @NotEmpty
+    @Column(name = "zipcode")
     private String zipCode;
 
-    @NotEmpty
     private String city;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(name = "federal_state")
     private FederalState federalState;
 
-    @NotEmpty
     private String country;
     
     private BigDecimal latitude;
