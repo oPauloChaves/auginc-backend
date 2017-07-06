@@ -52,7 +52,7 @@ spring:
         initialSize: 5
         removeAbandoned: true
 logging:
-    config: classpath:logback-file.xml
+    config: classpath:logback-console.xml
 
 ---
 spring:
