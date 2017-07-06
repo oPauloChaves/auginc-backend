@@ -51,6 +51,9 @@ spring:
         minIdle: 2
         initialSize: 5
         removeAbandoned: true
+server:
+    port: $PORT
+    address: 0.0.0.0
 logging:
     config: classpath:logback-console.xml
 
